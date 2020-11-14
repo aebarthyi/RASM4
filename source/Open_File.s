@@ -15,7 +15,7 @@ Open_File:
 	mov		r7, #5				@ put 5 in the syscall register to set status to OPEN
 	svc		0					@ call to linux to read in the file and return a handle to the file
 	cmp		r0, #0				@ compare file descriptor to 0, if negative, an error has occured
-	movlt	r0, -1				@ if error found, return -1 to main call
+	movlt	r0, #-1				@ if error found, return -1 to main call
 	
 	pop		{sp}				@ preserve stack pointer
 	pop		{r4-r8, r10, r11}	@ preserve registers
