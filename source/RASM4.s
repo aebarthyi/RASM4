@@ -19,7 +19,7 @@ szMsgByte: .asciz "bytes\n"
 szTop: 	.asciz 	"Group: Rasm 16|Andrew Barth-Yi|Alex Au|\nClass: CS 3B\nLab: RASM3\nDate: 10/23/2020\n\n"	@ title card
 szEmp:	.skip 512
 szMsgS: .asciz	"                " @16 byte string for intasc
-
+szFile:	.asciz 	"input.txt"			@file name
 szMsg1:	.asciz	"               MASM4 TEXT EDITOR\n"			@menu line 1
 szMsg2:	.asciz	"        Data Structure Heap Memory Consumption: "	@menu line 2
 szMsg3:	.asciz	"        Number of Nodes: "				@menu line 3
@@ -121,7 +121,13 @@ menu:
 
 view:
 	@ view function!!!!!!!!!!!!!!
-
+	ldr	r0, =szFile	
+	bl	Open_File
+	bl	Line_Length
+	ldr	r1, =szMsgS	@point r1 to blank string
+	bl	intasc32	@call intasc32 to convert int to ascii
+	mov	r0, r1		@move ascii in r1 to r0
+	bl	putstring	@print r0
 	b	menu
 
 addString:
