@@ -121,14 +121,7 @@ menu:
 
 view:
 	@ view function!!!!!!!!!!!!!!
-	ldr	r0, =szFile	
-	bl	Open_File
-	bl	Line_Length
-	ldr	r1, =szMsgS	@point r1 to blank string
-	bl	intasc32	@call intasc32 to convert int to ascii
-	mov	r0, r1		@move ascii in r1 to r0
-	bl	putstring	@print r0
-	b	menu
+
 
 addString:
 

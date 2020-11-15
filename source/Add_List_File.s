@@ -1,23 +1,26 @@
-@ Create_List function
-@ Outputs:      r0 = Address of the first node in linked list
-@ Purpose:      creates an empty linked list head 
+@ Add_List_File function
+@ Inputs       r0 = address of first node in linked list
+@ 	           r1 = asciz string to store in the linked list
+@ Outputs      r0 = address of first node in linked list
+@	           r1 = number of nodes in the linked list
 
 	.data
 						
-	.global			Create_List		
+	.global		    Add_List_File		
 																											
 	.text
 
-Create_List:
+Add_List_File: 
+    
     
     push {r4-r8, r10, r11}      @ push preserved registers for aapcs
     push {sp}                   @ push stack pointer
     
-    mov	r0, #8			@ move 8 into r0 
-    bl 	malloc			@ allocate memory for the first node, the head with a null prev and null next
     
+
     pop	{sp}                    @ pop stack pointer
     pop	{r4-r8, r10, r11}       @ pop the preserved regiesters for aapcs
+    
     bx      lr    	            @ back to the main where it is called
 
     .end
