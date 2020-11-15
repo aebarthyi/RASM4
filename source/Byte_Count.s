@@ -17,29 +17,18 @@ Byte_Count:
 
 	mov	r5, #0		@setting byte count to 0
 nextnode:
-	mov	r2, #0		@setting count to 0
 
 	add r0, r0, #4		@offset the address by 4 to access the start of next
 
-nextaddress:
-	ldrb	r3, [r0, r2]	@needs HELP fix? -should copy address @r0 into r3
-	strb	r3, r1, r2	@next address should be in r1
-	
-	add	r2, #1		@increment counter by 1
-	cmp	r2, #4		@compare counter to 4
-	blt	nextaddress	@if the counter is less then branch
+	ldr	r1, [r0]	@loads the next address from node
 
-	cmp	r1, #00000000	@compare address to 00000000
+	cmp	r1, #0		@compare address to 00000000
 	beq	end		@if equal then jump to end
 
 	add	r0, r1, #8	@add 8 to r1 to get to the string address
 
 	push	{r4-r8, r10, r11}      @ push preserved registers for aapcs
-	push 	{sp}                   @ push stack pointer
-	push	{lr}			@preserve the link register for recursion
 	bl	String_Length		@calling string length
-	pop	{lr}			@preservs the link register for recursion
-	pop	{sp}                    @ pop stack pointer
 	pop	{r4-r8, r10, r11}       @ pop the preserved regiesters for aapcs
 
 	add	r0, #9		@add 9 to string length
@@ -49,7 +38,7 @@ nextaddress:
 	b	nextnode	@jump to next node
 
 end:
-	mov	r0, r1		@move node count into r0
+	mov	r0, r5		@move byte count into r0
 
 	pop	{lr}			@preservs the link register for recursion
 	pop	{sp}                    @ pop stack pointer
