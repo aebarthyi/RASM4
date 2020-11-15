@@ -16,10 +16,12 @@ kbBuf:	.skip	KBSIZE		@ Keyboard buffer
 
 szMsgByte: .asciz "bytes\n"
 
-szTop: 	.asciz 	"Group: Rasm 16|Andrew Barth-Yi|Alex Au|\nClass: CS 3B\nLab: RASM3\nDate: 10/23/2020\n\n"	@ title card
+szTop: 	.asciz 	"Group: Rasm 4|Andrew Barth-Yi|Alex Au|\nClass: CS 3B\nLab: RASM3\nDate: 11/15/2020\n\n"	@ title card
 szEmp:	.skip 512
 szMsgS: .asciz	"                " @16 byte string for intasc
 szFile:	.asciz 	"input.txt"			@file name
+szKeyb:	.asciz	"\nEnter string: "		@menu line 1
+
 szMsg1:	.asciz	"               MASM4 TEXT EDITOR\n"			@menu line 1
 szMsg2:	.asciz	"        Data Structure Heap Memory Consumption: "	@menu line 2
 szMsg3:	.asciz	"        Number of Nodes: "				@menu line 3
@@ -40,6 +42,9 @@ crCr: .byte 10			@byte nuber for carrage return
 	.global main		@ Provide program starting address to linker
 
 main:
+	bl	Create_List		@calls create list to start the head of the linked list
+	mov	r8, r0			@moves the begining of the head to r8(head)
+	mov	r7, r0			@move the head into r7(last node)
 
 	ldr 	r0, =szTop		@ load title card
 	bl 	putstring		@ display title card
@@ -141,7 +146,17 @@ addString:
 	blt	keyboard
 
 	b	file
+
 keyboard:
+	ldr 	r0, =szKeyb	@ load szKeyb
+	bl 	putstring	@ display keyboard enter msg
+
+	ldr	r0, =kbBuf	@ load into r0 address of kbBuf
+	mov	r1, #KBSIZE	@ store KBSIZE
+
+	bl	getstring	@calls getstring, stores user input address into r0
+	mov	r1, r7
+
 	@keyboard function!!!!!!!!!!!!!!
 
 	b	menu
