@@ -28,6 +28,7 @@ Add_String_keyboard:
 
 	mov	r2, #0		@setting count to 0
 	mov	r4, #0		@setting temp count to 0
+	mov	r7, #00		@setting r7 to 00
 
 copyaddressprev:				
 	ldrb	r3, r1, r2	@needs HELP fix?
@@ -41,6 +42,8 @@ copyaddressprev:
 copyaddressnext:				
 	ldrb	r3, r0, r4	@needs HELP fix?
 	strb	r3, [r1, r2]	@storing r2 into r5 + r1
+
+	strb	r7, [r0, r2]	@writing 0's into current node's next
 
 	add	r2, #1		@increment counter by 1
 	add	r4, #1		@increment temp counter by 1

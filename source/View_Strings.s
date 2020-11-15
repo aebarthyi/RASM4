@@ -23,7 +23,7 @@ nextnode:
 	add r0, r0, #4		@offset the address by 4 to access the start of next
 
 nextaddress:
-	ldrb	r3, r0, r2	@needs HELP fix? -should copy address @r0 into r3
+	ldrb	r3, [r0, r2]	@needs HELP fix? -should copy address @r0 into r3
 	strb	r3, r1, r2	@next address should be in r1
 	
 	add	r2, #1		@increment counter by 1
