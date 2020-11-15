@@ -1,4 +1,4 @@
-@ Add_String_keyboard function
+@ View_Strings function
 @ Inputs:	r0 = Address of head node
 @ Outputs:      none
 @ Purpose:      outputs all strings to the console
@@ -7,11 +7,11 @@
 
 crCr: .byte 10		@byte for carrage return
 						
-	.global			Add_String_keyboard		
+	.global			View_Strings		
 																											
 	.text
 
-Add_String_keyboard:
+View_Strings:
     
 	push	{r4-r8, r10, r11}      @ push preserved registers for aapcs
 	push 	{sp}                   @ push stack pointer
