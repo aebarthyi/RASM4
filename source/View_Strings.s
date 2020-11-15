@@ -23,7 +23,7 @@ nextaddress:
 	cmp	r0, #0	@compare address to 0
 	beq	end		@if equal then jump to end
 
-	add	r4, r0, #4	@add 4 to r0 to get to the string address
+	add	r4, r0, #8	@add 8 to r0 to get to the string address
 	mov r3, r0		@move our current next address to r3
 	
 	mov	r0, r4		@moving address into r0
