@@ -27,9 +27,9 @@ nextnode:
 
 	add	r0, r1, #8	@add 8 to r1 to get to the string address
 
-	push	{r4-r8, r10, r11}      @ push preserved registers for aapcs
+	push	{r1-r8, r10, r11}      @ push preserved registers for aapcs
 	bl	String_Length		@calling string length
-	pop	{r4-r8, r10, r11}       @ pop the preserved regiesters for aapcs
+	pop	{r1-r8, r10, r11}       @ pop the preserved regiesters for aapcs
 
 	add	r0, #9		@add 9 to string length
 	add	r5, r0		@adding byte total to count	
