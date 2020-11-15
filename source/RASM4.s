@@ -56,7 +56,13 @@ menu:
 	ldr 	r0, =szMsg2		@ load szMsg2
 	bl 	putstring		@ display title card
 
-	@need byte# function here!!!!!!!!!!!!!!!!!!!
+	mov	r0, r8			@move head to r0
+	bl	Byte_Count		@call bytecount
+
+	ldr	r1, =szMsgS		@point r1 to blank string
+	bl	intasc32		@call intasc32 to convert r0 to ascii
+	mov	r0, r1			@move ascii in r1 to r0
+	bl	putstring		@print r0
 
 	ldr 	r0, =szMsgByte		@ load szMsgByte
 	bl 	putstring		@ display title card
@@ -64,7 +70,13 @@ menu:
 	ldr 	r0, =szMsg3		@ load szMsg3
 	bl 	putstring		@ display title card
 
-	@need # of node function here!!!!!!!!!!!!!!!!!
+	mov	r0, r8			@move head to r0
+	bl	Node_Count		@call node count
+
+	ldr	r1, =szMsgS		@point r1 to blank string
+	bl	intasc32		@call intasc32 to convert r0 to ascii
+	mov	r0, r1			@move ascii in r1 to r0
+	bl	putstring		@print r0
 
 	@new line
 	ldr	r0, =crCr		@load into r0 address of crCr
@@ -125,8 +137,8 @@ menu:
 	b	error
 
 view:
-	@ view function!!!!!!!!!!!!!!
-
+	mov	r0, r8			@move head to r0
+	bl	View_Strings		@calls view strings
 
 addString:
 
@@ -157,7 +169,8 @@ keyboard:
 	bl	getstring	@calls getstring, stores user input address into r0
 	mov	r1, r7
 
-	@keyboard function!!!!!!!!!!!!!!
+	bl	Add_String_keyboard	@calls add string from keyboard
+	mov	r7, r0			@move last node into r7
 
 	b	menu
 
