@@ -12,6 +12,7 @@ Create_List:
     
     push {r4-r8, r10, r11}      @ push preserved registers for aapcs
     push {sp}                   @ push stack pointer
+    push {lr}			@preserve the link register for recursion
     
     mov	r0, #8			@ move 8 into r0 
     bl 	malloc			@ allocate memory for the first node, the head with a null prev and null next
@@ -20,6 +21,7 @@ Create_List:
     mov r4, #0x00000000		@move all 0's into r4
     str r4, [r0]		@store all 0's into next
     
+    pop	{lr}			@preservs the link register for recursion
     pop	{sp}                    @ pop stack pointer
     pop	{r4-r8, r10, r11}       @ pop the preserved regiesters for aapcs
     bx      lr    	            @ back to the main where it is called

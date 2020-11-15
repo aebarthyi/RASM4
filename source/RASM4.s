@@ -107,6 +107,9 @@ menu:
 	ldr	r0, =kbBuf	@ load into r0 address of kbBuf
 	mov	r1, #KBSIZE	@ store KBSIZE
 
+	mov	r6, #0		@moving 0 into r6
+	str	r6, [r0]	@setting r0 to 0
+
 	bl	getstring	@calls getstring, stores user input into kbBuf
 	bl	ascint32	@calling ascint32(converts szX to a 32 bit integer
 
@@ -140,6 +143,8 @@ view:
 	mov	r0, r8			@move head to r0
 	bl	View_Strings		@calls view strings
 
+	b	menu
+
 addString:
 
 	ldr 	r0, =szMsg6		@ load szMsg6
@@ -150,6 +155,9 @@ addString:
 
 	ldr	r0, =kbBuf	@ load into r0 address of kbBuf
 	mov	r1, #KBSIZE	@ store KBSIZE
+
+	mov	r6, #0		@moving 0 into r6
+	str	r6, [r0]	@setting r0 to 0
 
 	bl	getstring	@calls getstring, stores user input into kbBuf
 	ldr	r0, [r0]
@@ -165,6 +173,9 @@ keyboard:
 
 	ldr	r0, =kbBuf	@ load into r0 address of kbBuf
 	mov	r1, #KBSIZE	@ store KBSIZE
+
+	mov	r6, #0		@moving 0 into r6
+	str	r6, [r0]	@setting r0 to 0
 
 	bl	getstring	@calls getstring, stores user input address into r0
 	mov	r1, r7
