@@ -1,0 +1,6 @@
+- Create Linked list at program start, should be empty
+- Create two insert functions to add to the list, one from keyboard and one from file
+- Delete functions to free memory from the list and move the pointers around appropriately
+- Search function that finds substrings in the list and returns the line number found in the terminal (We can use the old string compare functions we made earlier)
+- Edit function that calls delete and insert functions to make changes to the list
+- Write functions to write the current list to the txt file and close before exiting
