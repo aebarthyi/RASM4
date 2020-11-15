@@ -16,20 +16,13 @@ Node_Count:
 	push	{lr}			@preserve the link register for recursion
 
 	mov	r5, #0		@setting node count to 0
-nextnode:
-	mov	r2, #0		@setting count to 0
 
+nextnode:
 	add r0, r0, #4		@offset the address by 4 to access the start of next
 
-nextaddress:
-	ldrb	r3, [r0, r2]	@needs HELP fix? -should copy address @r0 into r3
-	strb	r3, r1, r2	@next address should be in r1
-	
-	add	r2, #1		@increment counter by 1
-	cmp	r2, #4		@compare counter to 4
-	blt	nextaddress	@if the counter is less then branch
+	ldr	r1, [r0]	@loads the next address from node
 
-	cmp	r1, #00000000	@compare address to 00000000
+	cmp	r1, #0		@compare address to 00000000
 	beq	end		@if equal then jump to end
 
 	add	r5, #1		@increment node count by 1
@@ -38,7 +31,7 @@ nextaddress:
 	b	nextnode	@jump to next node
 
 end:
-	mov	r0, r1		@move node count into r0
+	mov	r0, r5		@move node count into r0
 
 	pop	{lr}			@preservs the link register for recursion
 	pop	{sp}                    @ pop stack pointer
