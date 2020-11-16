@@ -22,9 +22,6 @@ Delete_String:
 nextaddress:
 	ldr		r0, [r0, #4]	@get next address
 
-	cmp	r0, #0	@compare address to 0
-	beq	end		@if equal then jump to end
-
 	add	r5, #1		@increment node counter by 1
 	cmp	r5, r4		@compare the node count to the node # to delete
 	blt	nextaddress	@jump to next node if less than node #
@@ -33,14 +30,16 @@ nextaddress:
 	
 	ldr r3, [r7]	@ current address prev pointer
 	add r3, #4		@ prev nodes next address
+	str r4, [r3, #4]	@ store next for the prev node
 	
 	ldr r4, [r7, #4]	@ current address next pointer
+	cmp	r4, #0			@ check if null next 
+	beq		free		@ branch to free if null next 
 	
-	str r4, [r3, #4]	@ store next for the prev node
 	str r3, [r4]		@ store prev for the next node
 	
 
-@freeing memory
+free:
 
 	mov r0, r7		@ get our current node into r0
 	

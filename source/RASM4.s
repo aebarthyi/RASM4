@@ -21,6 +21,7 @@ szEmp:	.skip 512
 szMsgS: .asciz	"                " @16 byte string for intasc
 szFile:	.asciz 	"input.txt"			@file name
 szKeyb:	.asciz	"\nEnter string: "		@menu line 1
+szDel:	.asciz 	"\nEnter a line number: " @menu delete function
 
 szMsg1:	.asciz	"               MASM4 TEXT EDITOR\n"			@menu line 1
 szMsg2:	.asciz	"        Data Structure Heap Memory Consumption: "	@menu line 2
@@ -140,6 +141,9 @@ menu:
 	b	error
 
 view:
+	ldr	r0, =crCr		@load carriage return
+	bl	putch			@display return
+
 	mov	r0, r8			@move head to r0
 	bl	View_Strings		@calls view strings
 
@@ -191,7 +195,21 @@ file:
 	b	menu
 
 delete:
-	@delete function!!!!!!!!!!!!!!!!!
+	ldr 	r0, =szDel	@ load szDel
+	bl 	putstring	@ display keyboard enter msg
+	
+	ldr	r0, =kbBuf	@ load into r0 address of kbBuf
+	mov	r1, #KBSIZE	@ store KBSIZE
+	
+	mov	r6, #0		@moving 0 into r6
+	str	r6, [r0]	@setting r0 to 0
+	
+	bl	getstring	@calls getstring, stores user input address into r0
+	bl	ascint32	@calls ascint32, stores number given by the user
+	
+	mov	r1, r0	@set arguments for the delete function
+	mov r0, r8	@set head for delete function
+	bl	Delete_String	@call delete string to delete given line number
 
 	b	menu
 
