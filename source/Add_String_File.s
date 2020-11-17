@@ -21,6 +21,7 @@ Read:
 	push	{r1-r8, r10, r11}       @ preserved registers
 	bl	Read_File		@ read a line from file
 	pop	{r1-r8, r10, r11}       @ pop registers
+	
 	cmp	r0, #0			@check if end of file
 	beq	exit			@
 	mov	r6, r0			@ save string
@@ -65,6 +66,7 @@ copy:
 	b	Read		@read next line
 
 exit:
+	mov	r0, r1		@last node to r0
 	pop	{lr}			@preservs the link register for recursion
 	pop	{sp}                    @ pop stack pointer
 	pop	{r4-r8, r10, r11}       @ pop the preserved regiesters for aapcs
