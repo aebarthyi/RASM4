@@ -33,6 +33,9 @@ CharCheck:
 	strb	r3, [r5, r4]		@ store in the buffer if not newline
 	addne	r4, #1				@ increment counter if not found
 	bne		CharCheck			@ back to top of loop
+	add		r4, #1
+	mov		r3, #0
+	strb	r3, [r5, r4]		@ null term
 
 	mov		r0, r5				@ return address of read in line
 	pop		{sp}				@ preserve stack pointer
