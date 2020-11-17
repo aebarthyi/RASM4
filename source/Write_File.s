@@ -13,10 +13,8 @@ szByte: .byte	1		@character buffer
 
 .text
 
-	
-
 Write_File:
-	
+	push	{lr}				@ preserve link
 	push	{r4-r8, r10, r11} 	@ preserve registers
 	push	{sp}				@ preserve stack pointer
 	mov		r7, #4				@ set write syscall
@@ -36,16 +34,18 @@ nextNode:
 	mov	r0, r5			@ put descriptor in r0 for write
 	svc		0			@ call syscall to write the line to file
 	
-	cmp	r3, #0			@compare address to 0
-	beq	end				@if equal then jump to end
-	mov	r0, r3			@ restore next address
+	ldr	r1, [r3, #4]		@ load next node
+	cmp	r1, #0				@ if no nodes left
+	beq	end
+	mov	r0, r3			@ restore next node if not end of list
 	b	nextNode		@ go back and keep writing until list empty
 	
 end:
 	mov	r0, r5			@ restore file descriptor
+	
 	pop		{sp}				@ preserve stack pointer
 	pop		{r4-r8, r10, r11}	@ preserve registers
-	
+	pop		{lr}				@ preserve link
 	bx 		lr					@ branch back to call
 	
 	.end

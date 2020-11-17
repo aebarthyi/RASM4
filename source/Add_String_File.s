@@ -18,12 +18,14 @@ Add_String_File:
 	mov	r8, r0			@ save file descriptor
 	
 Read:
-	push	{r1-r8, r10, r11}       @ preserved registers
+	mov		r2, r1
+	push	{r2-r8, r10, r11}       @ preserved registers
 	bl	Read_File		@ read a line from file
-	pop	{r1-r8, r10, r11}       @ pop registers
-	
-	cmp	r0, #0			@check if end of file
-	beq	exit			@exit if reached end of file
+	pop	{r2-r8, r10, r11}       @ pop registers
+	cmp		r1, #0				@check if last line read
+	beq		exit
+	mov 	r1, r2			
+	 
 	mov	r6, r0			@ save string
 	push	{r1-r8, r10, r11}       @ preserved registers
 	bl	String_Length		@ call string length
@@ -31,7 +33,6 @@ Read:
 	mov	r5, r0			@moving length into r5
 	
 	add	r0, r0, #8	@adding 8 to string length
-
 	add	r0, r0, #4	@increse memory alocation by 4 more bytes
 
 	push	{r1-r8, r10, r11}       @ preserved registers
@@ -63,9 +64,10 @@ copy:
 	mov	r1, r0		@make current node last node
 	mov	r0, r8		@restore file descriptor
 	
-	b	Read		@read next line
+	b Read		@read next line
 
 exit:
+	mov	r1, r2
 	mov	r0, r1		@last node to r0
 	pop	{lr}			@preservs the link register for recursion
 	pop	{sp}                    @ pop stack pointer

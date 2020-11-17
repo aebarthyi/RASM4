@@ -197,12 +197,12 @@ keyboard:
 file:
 	ldr	r0, =szFile		@get address to file name
 	bl	Open_File		@open the file
-	mov	r1, r7		@last node
+	mov	r1, r7			@last node
 	bl	Add_String_File
-	mov	r7, r0		@update last node added
-	push	{r7}	@preserve r7 
-	bl	Close_File	@close the file and reset the cursor
-	pop		{r7}	@pop r7
+	mov	r7, r0			@update last node added
+	push	{r7}		@preserve r7 
+	bl	Close_File		@close the file and reset the cursor
+	pop		{r7}		@pop r7
 	b	menu
 
 delete:
@@ -325,6 +325,7 @@ save:
 	mov	r1, r0		@file descriptor in r1
 	mov	r0, r8		@move head address into r0
 	bl	Write_File	@write to file
+	
 	bl	Close_File	@close the file
 	
 	b	menu

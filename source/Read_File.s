@@ -38,14 +38,15 @@ CharCheck:
 	strb	r3, [r5, r4]		@ null term
 
 	mov		r0, r5				@ return address of read in line
+	mov		r1, #1				@ make sure line is read
 	pop		{sp}				@ preserve stack pointer
 	pop		{r4-r8, r10, r11}	@ preserve registers
 	
 	bx 		lr					@ branch back to call
 	
 exitEOF:
-	
-	mov		r0, #0
+	mov		r0, r5				
+	mov		r1, #0				@ returns if no line read
 	pop		{sp}				@ preserve stack pointer
 	pop		{r4-r8, r10, r11}	@ preserve registers
 	
