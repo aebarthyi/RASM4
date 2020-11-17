@@ -1,6 +1,6 @@
 @ Delete_String function
 @ Inputs:	r0 = Address of head node
-@			r1 = node # to delete
+@		r1 = node # to delete
 @ Outputs:      none
 @ Purpose:      deletes the string at the specified node
 
@@ -16,37 +16,43 @@ Delete_String:
 	push 	{sp}                   @ push stack pointer
 	push	{lr}			@preserve the link register for recursion
 
-	mov	r4, r1		@setting node to delete into r4
-	mov	r5, #0		@setting node count to 0
+	mov	r7, r1		@setting node to delete into r4
+	mov	r4, #0		@setting node count to 0
 
 nextaddress:
-	ldr		r0, [r0, #4]	@get next address
+	mov	r3, r0		@store previous address into r3
+	ldr	r0, [r0, #4]	@get next address
 
-	add	r5, #1		@increment node counter by 1
-	cmp	r5, r4		@compare the node count to the node # to delete
-	blt	nextaddress	@jump to next node if less than node #
-	
-	mov	r7, r0		@move current address into r7
-	
-	ldr r3, [r7]	@ current address prev pointer
-	add r3, #4		@ prev nodes next address
-	str r4, [r3, #4]	@ store next for the prev node
-	
-	ldr r4, [r7, #4]	@ current address next pointer
-	cmp	r4, #0			@ check if null next 
-	beq		free		@ branch to free if null next 
-	
-	str r3, [r4]		@ store prev for the next node
-	
+	cmp	r0, #0		@compare address to 0
+	beq	error		@if equal then jump to end
 
-free:
+	add	r4, #1		@increment counter by 1
 
-	mov r0, r7		@ get our current node into r0
+	cmp	r4, r7		@compare count to node #
+	blt	nextaddress	@jump to next node
+
+@moving pointers around
+	str	r5, [r3, #4]	@storing 'new node address' into previous node's next
+
+	ldr	r2, [r0]	@loading prev address in node to delete
+	str	r2, [r5]	@setting prev address in new node
+
+	ldr	r2, [r0, #4]	@loading 'next address' from 'node to delete' to r2
+	str	r2, [r5, #4]	@setting next address in new node
+
+	cmp	r2, #0		@compare if the next address is 0x00000000
+	beq	endptr		@skip over setting next pointers
+
+	str	r5, [r2]	@setting the prev address in 'next node' to the new node
+endptr:
+	push	{r1-r8, r10, r11}       @ preserved registers
+	bl	free			@frees the memory at the address in r0 (node to delete)
+	pop	{r1-r8, r10, r11}       @ pop registers
 	
-	push	{r1-r8, r10, r11}      @ push preserved registers for aapcs
-	bl		free					@ free up current node
-	pop		{r1-r8, r10, r11}       @ pop the preserved regiesters for aapcs
-
+	mov	r0, #1		@move 1 into r0, indicates program ran
+	b	end		@jump to end
+error:
+	mov	r0, #0		@move 0 into r0, indicates no node to delete
 end:
 	pop	{lr}					@preservs the link register for recursion
 	pop	{sp}                    @ pop stack pointer
