@@ -14,16 +14,18 @@
 
 kbBuf:	.skip	KBSIZE		@ Keyboard buffer
 
-szMsgByte: .asciz "bytes\n"
+szMsgByte: .asciz " bytes\n"
 
-szTop: 	.asciz 	"Group: Rasm 4|Andrew Barth-Yi|Alex Au|\nClass: CS 3B\nLab: RASM3\nDate: 11/15/2020\n\n"	@ title card
+szTop: 	.asciz 	"Group: Rasm 4|Andrew Barth-Yi|Alex Au|\nClass: CS 3B\nLab: RASM3\nDate: 11/15/2020"	@ title card
 szEmp:	.skip 512
 szMsgS: .asciz	"                " @16 byte string for intasc
 szFile:	.asciz 	"input.txt"			@file name
 szKeyb:	.asciz	"\nEnter string: "		@menu line 1
-szDel:	.asciz 	"\nEnter a line number: " @menu delete function
+szDel:	.asciz 	"\nEnter a line number: " 	@menu delete function
+szEdit:	.asciz 	"\nEnter a new string: "  	@input prompt for edit function
+szEdtR:	.asciz 	"\nError, node does not exist"  @error prompt for edit function
 
-szMsg1:	.asciz	"               MASM4 TEXT EDITOR\n"			@menu line 1
+szMsg1:	.asciz	"\n\n               MASM4 TEXT EDITOR\n"			@menu line 1
 szMsg2:	.asciz	"        Data Structure Heap Memory Consumption: "	@menu line 2
 szMsg3:	.asciz	"        Number of Nodes: "				@menu line 3
 szMsg4:	.asciz	"<1> View all strings  \n\n"				@menu line 4
@@ -213,15 +215,48 @@ delete:
 	bl	getstring	@calls getstring, stores user input address into r0
 	bl	ascint32	@calls ascint32, stores number given by the user
 	
-	mov	r1, r0	@set arguments for the delete function
-	mov r0, r8	@set head for delete function
+	mov	r1, r0		@set arguments for the delete function
+	mov 	r0, r8		@set head for delete function
 	bl	Delete_String	@call delete string to delete given line number
 
 	b	menu
 
 edit:
-	@edit function!!!!!!!!!!!!!!!!!!!!!!
+	ldr 	r0, =szDel	@ load szDel to "enter a line number:"
+	bl 	putstring	@ display keyboard enter msg
 
+	ldr	r0, =kbBuf	@ load into r0 address of kbBuf
+	mov	r1, #KBSIZE	@ store KBSIZE
+
+	mov	r6, #0		@moving 0 into r6
+	str	r6, [r0]	@setting r0 to 0
+
+	bl	getstring	@calls getstring, stores user input address into r0
+	bl	ascint32	@calling ascint32(converts szX to a 32 bit integer
+	mov	r4, r0		@move node # into r4
+
+	ldr 	r0, =szEdit	@ load szEdit
+	bl 	putstring	@ display keyboard enter msg
+
+	ldr	r0, =kbBuf	@ load into r0 address of kbBuf
+	mov	r1, #KBSIZE	@ store KBSIZE
+
+	mov	r6, #0		@moving 0 into r6
+	str	r6, [r0]	@setting r0 to 0
+
+	bl	getstring	@calls getstring, stores user input address into r0
+	mov	r1, r0		@move address of string to overwrite into r1
+	mov	r2, r8		@moving head into r2
+	mov	r0, r4		@move node # back into r0
+
+	bl	Edit_String	@call edit string
+	cmp	r0, #0		@compare r0 to 0
+	beq	editError
+
+	b	menu
+editError:
+	ldr 	r0, =szEdtR	@ load szDel to "enter a line number:"
+	bl 	putstring	@ display keyboard enter msg
 	b	menu
 
 search:
