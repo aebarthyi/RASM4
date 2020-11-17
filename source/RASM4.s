@@ -220,7 +220,14 @@ delete:
 	mov	r1, r0		@set arguments for the delete function
 	mov 	r0, r8		@set head for delete function
 	bl	Delete_String	@call delete string to delete given line number
+	cmp	r0, #0		@compare r0 to 0
+	beq	delError
 
+	b	menu
+
+delError:
+	ldr 	r0, =szEdtR	@ load szDel to "enter a line number:"
+	bl 	putstring	@ display keyboard enter msg
 	b	menu
 
 edit:
@@ -256,6 +263,7 @@ edit:
 	beq	editError
 
 	b	menu
+
 editError:
 	ldr 	r0, =szEdtR	@ load szDel to "enter a line number:"
 	bl 	putstring	@ display keyboard enter msg
