@@ -19,46 +19,11 @@ Add_String_File:
 	
 Read:
 	bl	Read_File		@ read a line from file
-	mov	r6, r0			@ save string
-	push	{r1-r8, r10, r11}       @ preserved registers
-	bl	String_Length		@ call string length
-	pop	{r1-r8, r10, r11}       @ pop registers
-	cmp	r0, #0			@ check if length is 0
-	beq	exit			@ end of file
-	mov	r5, r0			@moving length into r5
+	cmp	r0, #0			@ check if end of file
+	beq	exit			@ finish if end of file
+	bl	Add_String_keyboard	@ add string from keyboard
+	mov	r1, r0			@ update last node
 	
-	add	r0, r0, #8	@adding 8 to string length
-
-	add	r0, r0, #4	@increse memory alocation by 4 more bytes
-
-	push	{r1-r8, r10, r11}       @ preserved registers
-	bl 	malloc			@ allocate memory to store string and next/prev addresses
-	pop	{r1-r8, r10, r11}       @ pop registers
-
-	mov	r4, #0		@setting temp count to 0
-	mov	r7, #0x00000000	@setting r7 to 0
-				
-	mov	r3, r1		@ load address of last node
-	str	r3, [r0]	@storing prev address to our new node
-	
-	str	r0, [r1, #4]	@store our current node address to prev node next
-	str	r7, [r0, #4]	@store next of our current to be null
-	
-	mov	r2, #0		@setting count to 0
-	mov 	r4, #8		@setting offset for copy
-
-copy:
-	ldrb	r3, [r6, r2]	@loading string byte offset by r4
-	strb	r3, [r0, r4]	@storing string byte in new node offset by r2
-
-	add	r2, #1		@increment counter by 1
-	add 	r4, #1		@increment offset of node by 1
-
-	cmp	r2, r5		@compare count to total length
-	blt	copy		@if less then jump to copy
-	
-	mov	r1, r0		@make current node last node
-	mov	r0, r8		@restore file descriptor
 	b	Read		@read next line
 
 exit:

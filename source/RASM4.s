@@ -198,10 +198,7 @@ file:
 	mov	r0, r5		@get file descriptor back
 	mov	r1, r7		@last node
 	bl	Add_String_File
-
-	
-	
-
+	mov	r7, r0		@update last node added
 	b	menu
 
 delete:

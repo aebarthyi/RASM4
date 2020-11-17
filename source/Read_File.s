@@ -1,6 +1,6 @@
 @ Read_File function
 @ Requirements: r0 = File descriptor
-@ Outputs: 	r0 = address to String of a line
+@ Outputs: 	r0 = address to String of a line, 0 if end of file
 @ Purpose: reads in a line from the file
 
 .data
@@ -26,7 +26,7 @@ Read_File:
 CharCheck:
 	svc		0					@ call to read in one character
 	cmp		r0, #1				@ check if a byte was read or not
-	blt		exit				@ go to read in if end of file found
+	blt		exitEOF				@ go to read in if end of file found
 	mov		r0, r6				@ restore file descriptor
 	ldrb	r3, [r1]			@ dereference the byte
 	cmp		r3, #10				@ check if newline character found
@@ -34,13 +34,19 @@ CharCheck:
 	addne	r4, #1				@ increment counter if not found
 	bne		CharCheck			@ back to top of loop
 
-exit:
 	mov		r0, r5				@ return address of read in line
 	pop		{sp}				@ preserve stack pointer
 	pop		{r4-r8, r10, r11}	@ preserve registers
 	
 	bx 		lr					@ branch back to call
 	
+exitEOF:
+	
+	mov		r0, #0				@ return address of read in line
+	pop		{sp}				@ preserve stack pointer
+	pop		{r4-r8, r10, r11}	@ preserve registers
+	
+	bx 		lr					@ branch back to call
 	.end
 ~
 ~
