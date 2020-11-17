@@ -320,7 +320,12 @@ noResults:
 	b	menu
 
 save:
-	@save function!!!!!!!!!!!!!!!!!!
+	ldr	r0, =szFile	@load file name
+	bl	Open_File	@Open the file again to save
+	mov	r1, r0		@file descriptor in r1
+	mov	r0, r8		@move head address into r0
+	bl	Write_File	@write to file
+	bl	Close_File	@close the file
 	
 	b	menu
 error:

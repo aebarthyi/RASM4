@@ -23,7 +23,7 @@ Read:
 	pop	{r1-r8, r10, r11}       @ pop registers
 	
 	cmp	r0, #0			@check if end of file
-	beq	exit			@
+	beq	exit			@exit if reached end of file
 	mov	r6, r0			@ save string
 	push	{r1-r8, r10, r11}       @ preserved registers
 	bl	String_Length		@ call string length

@@ -45,7 +45,7 @@ CharCheck:
 	
 exitEOF:
 	
-	mov		r0, #0				@ return address of read in line
+	mov		r0, #0
 	pop		{sp}				@ preserve stack pointer
 	pop		{r4-r8, r10, r11}	@ preserve registers
 	
