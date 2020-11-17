@@ -44,9 +44,6 @@ print:
 	mov	r0, r4		@moving address into r0
 	bl	putstring	@call putstring to display
 
-	ldr	r0, =crCr	@move crCr into r0
-	bl	putch		@print using putch
-
 	mov	r0, r3		@move address into r0
 	add r5, #1		@increment line number
 	b	nextaddress	@jump to next node
