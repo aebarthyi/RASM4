@@ -205,6 +205,7 @@ file:
 	b	menu
 
 delete:
+
 	ldr 	r0, =szDel	@ load szDel
 	bl 	putstring	@ display keyboard enter msg
 	
@@ -220,9 +221,17 @@ delete:
 	mov	r1, r0		@set arguments for the delete function
 	mov 	r0, r8		@set head for delete function
 	bl	Delete_String	@call delete string to delete given line number
+
 	cmp	r0, #0		@compare r0 to 0
 	beq	delError
 
+	cmp	r1, #1		@compares if last node was deleted
+	beq	lastNodeChange
+
+	b	menu
+
+lastNodeChange:
+	mov	r7, r2		@resetting last node since last was deleted
 	b	menu
 
 delError:
