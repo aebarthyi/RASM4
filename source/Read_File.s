@@ -10,13 +10,16 @@ szByte: .byte	1		@character buffer
 
 .global Read_File			@ Provide program starting address to linker
 
+.text
+
 Read_File:
 
 	push	{r4-r8, r10, r11} 	@ preserve registers
 	push	{sp}				@ preserve stack pointer
-
-	mov		r1, =szByte			@ load character buffer
+	mov		r6, r0				@ save file descriptor
+	ldr		r1, =szByte			@ load character buffer
 	mov		r2, #1				@ set bytes to read to 1
+	mov		r7, #3				@ set syscall to read
 	mov		r4, #0				@ set our counter up
 	
 CharCheck:
@@ -28,7 +31,8 @@ CharCheck:
 	bne		CharCheck			@ back to top of loop
 	
 ReadIn:
-	mov		r1, =szEmp			@ move buffer to be read into
+	mov		r0, r6				@ restore file descriptor
+	ldr		r1, =szEmp			@ move buffer to be read into
 	mov		r2, r4				@ put our line length into r2
 	svc  	0					@ call to read into the buffer
 	

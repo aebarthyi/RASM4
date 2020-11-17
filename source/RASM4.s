@@ -43,6 +43,9 @@ crCr: .byte 10			@byte nuber for carrage return
 	.global main		@ Provide program starting address to linker
 
 main:
+	ldr	r0, =szFile		@get address to file name
+	bl	Open_File		@open the file
+	mov	r5, r0			@move file descriptor to r6
 	bl	Create_List		@calls create list to start the head of the linked list
 	mov	r8, r0			@moves the begining of the head to r8(head)
 	mov	r7, r0			@move the head into r7(last node)
@@ -190,7 +193,10 @@ keyboard:
 	b	menu
 
 file:
-	@file function!!!!!!!!!!!!!!!!!!!!
+	mov	r0, r5		@get file descriptor back
+	bl	Read_File	@read in a line from the file
+	
+	bl	putstring	@display that line
 
 	b	menu
 
