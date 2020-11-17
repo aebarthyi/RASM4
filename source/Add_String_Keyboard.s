@@ -47,14 +47,17 @@ copy:
 	ldrb	r3, [r6, r2]	@loading string byte offset by r4
 	strb	r3, [r0, r4]	@storing string byte in new node offset by r2
 
-	add		r2, #1		@increment counter by 1
+	add	r2, #1		@increment counter by 1
 	add 	r4, #1		@increment offset of node by 1
 
 	cmp	r2, r5		@compare count to total length
 	blt	copy		@if less then jump to copy
+
+	ldrb	r3, [r6, r2]	@loading null ptr into r3
+	strb	r3, [r0, r4]	@storing null ptr
 	
-	add		r4, #1	@add for newline
-	mov		r3, #10	@newline character
+	add	r4, #1		@add for newline
+	mov	r3, #10		@newline character
 	strb	r3, [r0, r4]	@store newline
 
 	pop	{lr}					@preservs the link register for recursion
