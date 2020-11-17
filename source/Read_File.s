@@ -30,7 +30,7 @@ CharCheck:
 	mov		r0, r6				@ restore file descriptor
 	ldrb	r3, [r1]			@ dereference the byte
 	cmp		r3, #10				@ check if newline character found
-	strneb	r3, [r5, r4]		@ store in the buffer if not newline
+	strb	r3, [r5, r4]		@ store in the buffer if not newline
 	addne	r4, #1				@ increment counter if not found
 	bne		CharCheck			@ back to top of loop
 

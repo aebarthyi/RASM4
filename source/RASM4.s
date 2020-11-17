@@ -196,9 +196,11 @@ keyboard:
 
 file:
 	mov	r0, r5		@get file descriptor back
-	bl	Read_File	@read in a line from the file
+	mov	r1, r7		@last node
+	bl	Add_String_File
+
 	
-	bl	putstring	@display that line
+	
 
 	b	menu
 
