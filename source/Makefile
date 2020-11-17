@@ -1,4 +1,4 @@
-all: Open_File.o RASM4.o Add_String_Keyboard.o Byte_Count.o Create_List.o Delete_String.o Node_Count.o View_Strings.o Read_File.o Add_String_File.o Edit_String.o
+all: Open_File.o RASM4.o Add_String_Keyboard.o Byte_Count.o Create_List.o Delete_String.o Node_Count.o View_Strings.o Read_File.o Add_String_File.o Edit_String.o Search_String.o String_Comp.o Close_File.o
 
 Open_File.o :
 	as -g -o ~/RASM4/build/Open_File.o Open_File.s
@@ -32,3 +32,12 @@ Add_String_File.o :
 
 Edit_String.o :
 	as -g -o ~/RASM4/build/Edit_String.o Edit_String.s
+
+Search_String.o :
+	as -g -o ~/RASM4/build/Search_String.o Search_String.s
+
+String_Comp.o :
+	as -g -o ~/RASM4/build/String_Comp.o String_Comp.s
+	
+Close_File.o :
+	as -g -o ~/RASM4/build/Close_File.o Close_File.s
