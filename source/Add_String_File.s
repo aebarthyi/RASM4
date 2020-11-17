@@ -23,7 +23,7 @@ Read:
 	beq	exit			@ finish if end of file
 	bl	Add_String_keyboard	@ add string from keyboard
 	mov	r1, r0			@ update last node
-	
+	mov	r0, r8			@ update file descriptor
 	b	Read		@read next line
 
 exit:
