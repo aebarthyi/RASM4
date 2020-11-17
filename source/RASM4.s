@@ -24,6 +24,9 @@ szKeyb:	.asciz	"\nEnter string: "		@menu line 1
 szDel:	.asciz 	"\nEnter a line number: " 	@menu delete function
 szEdit:	.asciz 	"\nEnter a new string: "  	@input prompt for edit function
 szEdtR:	.asciz 	"\nError, node does not exist"  @error prompt for edit function
+szSerc:	.asciz 	"\nEnter the substring to search for: "  @input prompt for search function
+szSerN:	.asciz 	"\nNumber of Search results: "  	@output for search function
+szSerE:	.asciz 	"\nNo strings were found containing: "  @output for search function
 
 szMsg1:	.asciz	"\n\n               MASM4 TEXT EDITOR\n"			@menu line 1
 szMsg2:	.asciz	"        Data Structure Heap Memory Consumption: "	@menu line 2
@@ -276,7 +279,42 @@ editError:
 	b	menu
 
 search:
-	@search function!!!!!!!!!!!!!!!!!!!
+	ldr 	r0, =szSerc	@ load szSerc
+	bl 	putstring	@ display keyboard enter msg
+	
+	ldr	r0, =kbBuf	@ load into r0 address of kbBuf
+	mov	r1, #KBSIZE	@ store KBSIZE
+
+	mov	r6, #0		@moving 0 into r6
+	str	r6, [r0]	@setting r0 to 0
+
+	bl	getstring	@calls getstring, stores user input address into r0
+	mov	r1, r0		@moving substring to search into r1
+	mov	r4, r0		@moving substring to search into r4 for back up
+	mov	r0, r8		@moving head into r0
+
+	bl	Search_String	@calls search string
+	cmp	r0, #0		@compares if r0 is 0
+	beq	noResults	@if r0 is 0 then branch to no results
+
+	mov	r4, r0		@mov #of search results into r4
+	ldr	r0, =szSerN	@move the search result msg into r0
+	bl	putstring	@print the string in r0
+	mov	r0, r4		@move the search result back into r0
+
+	ldr	r1, =szMsgS		@point r1 to blank string
+	bl	intasc32		@call intasc32 to convert r0 to ascii
+	mov	r0, r1			@move ascii in r1 to r0
+	bl	putstring		@print r0
+
+	b	menu
+
+noResults:
+	ldr 	r0, =szSerE	@ load szSerE
+	bl 	putstring	@ display keyboard enter msg
+
+	mov	r0, r4		@mov thestring back into r0 for output
+	bl 	putstring	@ display keyboard enter msg
 
 	b	menu
 
