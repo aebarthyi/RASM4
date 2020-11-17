@@ -79,6 +79,9 @@ copy:
 	cmp	r2, r6		@compare count to total length
 	blt	copy		@if less then jump to copy
 
+	ldrb	r3, [r8, r2]	@loading null ptr
+	strb	r3, [r5, r4]	@storing null ptr
+
 	mov	r0, #1		@set r0 to 1, indicate program ran
 	b	end
 
