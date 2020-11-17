@@ -1,7 +1,9 @@
 @ Delete_String function
 @ Inputs:	r0 = Address of head node
 @		r1 = node # to delete
-@ Outputs:      none
+@ Outputs:      r0 = indicates if program ran or not 
+@		r1 = indicates if last node was deleted
+@		r2 = if last node deleted, r2 contains the previous node address
 @ Purpose:      deletes the string at the specified node
 
 	.data
@@ -16,7 +18,7 @@ Delete_String:
 	push 	{sp}                   @ push stack pointer
 	push	{lr}			@preserve the link register for recursion
 
-	mov	r7, r1		@setting node to delete into r4
+	mov	r7, r1		@setting node # to delete into r4
 	mov	r4, #0		@setting node count to 0
 
 nextaddress:
@@ -32,24 +34,31 @@ nextaddress:
 	blt	nextaddress	@jump to next node
 
 @moving pointers around
-	str	r5, [r3, #4]	@storing 'new node address' into previous node's next
-
-	ldr	r2, [r0]	@loading prev address in node to delete
-	str	r2, [r5]	@setting prev address in new node
-
 	ldr	r2, [r0, #4]	@loading 'next address' from 'node to delete' to r2
-	str	r2, [r5, #4]	@setting next address in new node
-
 	cmp	r2, #0		@compare if the next address is 0x00000000
-	beq	endptr		@skip over setting next pointers
+	beq	lastptr		@skip over setting next pointers
 
-	str	r5, [r2]	@setting the prev address in 'next node' to the new node
-endptr:
+	mov	r1, #0		@move 0 into r1, indicates the last node was not deleted
+
+	str	r2, [r3, #4]	@storing 'next node address' into previous node's next
+	str	r3, [r2]	@setting the prev address in "next node's previous address"
+	
+	b	freemem
+
+lastptr:
+	mov	r4, #0x00000000	@setting r4 to a 0 address
+	str	r4, [r3, #4]	@setting prev node's 'next node' to 0x00000000
+
+	mov	r1, #1		@mov 1 into r1, indicated the last node was deleted
+	mov	r2, r3		@mov prev node address into r2(to keep track of last node)
+
+freemem:
 	push	{r1-r8, r10, r11}       @ preserved registers
 	bl	free			@frees the memory at the address in r0 (node to delete)
 	pop	{r1-r8, r10, r11}       @ pop registers
 	
 	mov	r0, #1		@move 1 into r0, indicates program ran
+
 	b	end		@jump to end
 error:
 	mov	r0, #0		@move 0 into r0, indicates no node to delete
