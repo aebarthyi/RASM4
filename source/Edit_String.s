@@ -79,12 +79,12 @@ copy:
 	cmp	r2, r6		@compare count to total length
 	blt	copy		@if less then jump to copy
 
+	mov	r3, #10		@newline character
+	strb	r3, [r5, r4]	@store newline
+
+	add	r4, #1		@add for null ptr
 	ldrb	r3, [r8, r2]	@loading null ptr
 	strb	r3, [r5, r4]	@storing null ptr
-
-	add	r4, #1		@add for newline
-	mov	r3, #10		@newline character
-	strb	r3, [r0, r4]	@store newline
 
 	mov	r0, #1		@set r0 to 1, indicate program ran
 	b	end

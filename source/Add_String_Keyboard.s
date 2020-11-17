@@ -53,12 +53,12 @@ copy:
 	cmp	r2, r5		@compare count to total length
 	blt	copy		@if less then jump to copy
 
-	ldrb	r3, [r6, r2]	@loading null ptr into r3
-	strb	r3, [r0, r4]	@storing null ptr
-	
-	add	r4, #1		@add for newline
 	mov	r3, #10		@newline character
 	strb	r3, [r0, r4]	@store newline
+
+	add	r4, #1		@add for newline
+	ldrb	r3, [r6, r2]	@loading null ptr into r3
+	strb	r3, [r0, r4]	@storing null ptr
 
 	pop	{lr}					@preservs the link register for recursion
 	pop	{sp}                    @ pop stack pointer
