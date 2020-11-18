@@ -20,6 +20,7 @@ szTop: 	.asciz 	"Group: Rasm 4|Andrew Barth-Yi|Alex Au|\nClass: CS 3B\nLab: RASM
 szEmp:	.skip 512
 szMsgS: .asciz	"                " @16 byte string for intasc
 szFile:	.asciz 	"input.txt"			@file name
+szFileS: .asciz	"output.txt"		@save file
 szKeyb:	.asciz	"\nEnter string: "		@menu line 1
 szDel:	.asciz 	"\nEnter a line number: " 	@menu delete function
 szEdit:	.asciz 	"\nEnter a new string: "  	@input prompt for edit function
@@ -28,9 +29,9 @@ szSerc:	.asciz 	"\nEnter the substring to search for: "  @input prompt for searc
 szSerN:	.asciz 	"\nNumber of Search results: "  	@output for search function
 szSerE:	.asciz 	"\nNo strings were found containing: "  @output for search function
 
-szMsg1:	.asciz	"\n\n               MASM4 TEXT EDITOR\n"			@menu line 1
+szMsg1:	.asciz	"\n\n               RASM4 TEXT EDITOR\n"			@menu line 1
 szMsg2:	.asciz	"        Data Structure Heap Memory Consumption: "	@menu line 2
-szMsg3:	.asciz	"        Number of Nodes: "				@menu line 3
+szMsg3:	.asciz	"        Number of Nodes: "					@menu line 3
 szMsg4:	.asciz	"<1> View all strings  \n\n"				@menu line 4
 szMsg5:	.asciz	"<2> Add string        \n\n"				@menu line 5
 szMsg6:	.asciz	"    <a> from keyboard   \n"				@menu line 6
@@ -41,8 +42,8 @@ szMsg10:.asciz	"<5> String search     \n\n"				@menu line 10
 szMsg11:.asciz	"<6> Save File         \n\n"				@menu line 11
 szMsg12:.asciz	"<7> Quit              \n\n"				@menu line 12
 
-crCr: .byte 10			@byte nuber for carrage return
-																			@ empty string for output
+crCr: .byte 10			@ byte number for carriage return
+						
 	.text
 
 	.global main		@ Provide program starting address to linker
@@ -320,7 +321,7 @@ noResults:
 	b	menu
 
 save:
-	ldr	r0, =szFile	@load file name
+	ldr	r0, =szFileS	@load file name
 	bl	Open_File	@Open the file again to save
 	mov	r1, r0		@file descriptor in r1
 	mov	r0, r8		@move head address into r0
