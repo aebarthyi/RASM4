@@ -30,11 +30,6 @@ loop:
 	b	loop		@jump back to loop
 		
 end:
-	mov	r0, r8		@mov head back to r0 for deletion
-
-	push	{r1-r8, r10, r11}       @ preserved registers
-	bl	free			@frees the memory at the address in r0 (node to delete)
-	pop	{r1-r8, r10, r11}       @ pop registers
 	
 	pop	{lr}					@preservs the link register for recursion
 	pop	{sp}                    @ pop stack pointer

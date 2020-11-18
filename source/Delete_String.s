@@ -60,8 +60,10 @@ freemem:
 	mov	r0, #1		@move 1 into r0, indicates program ran
 
 	b	end		@jump to end
+	
 error:
 	mov	r0, #0		@move 0 into r0, indicates no node to delete
+	
 end:
 	pop	{lr}					@preservs the link register for recursion
 	pop	{sp}                    @ pop stack pointer
