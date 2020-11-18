@@ -333,6 +333,8 @@ error:
 	b	menu
 	@--------------------------------------------------------
 quit:
+	mov		r0, r8		@ get head into r0
+	bl		Exit_Delete	@ delete the linked list on exit
 	mov 	r0, #0 		@ set exit status to 0
 	mov 	r7, #1		@ service command code to 1
 
