@@ -1,8 +1,8 @@
-@ Add_String_keyboard function
+@ Add_String_File function
 @ Inputs:	r0 = file descriptor to file to read from
 @		r1 = Address of last node
 @ Outputs:      r0 = Address of the new node in linked list
-@ Purpose:      creates an empty linked list head 
+@ Purpose:      adds lines from the file provided 
 
 	.data
 						
