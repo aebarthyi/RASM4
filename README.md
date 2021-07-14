@@ -1,16 +1,16 @@
 # RASM4
-Alex and Andrew's CS3B ARM assembly project
+Alex and Andrew's CS3B ARM assembly project<br/>
 A simple text editor built to target the Raspberry Pi.
 
-Features:
-  -Doubly-linked list for memory management.
-  -Usage of Linux syscalls for the permanent storage of the document. (writing to a file)
-  -Malloc and Free function calls for reserving memory space and freeing it when not needed.
-  -Search algorithm to find where a word or phrase is located.
-  -Updating byte count that shows how big the linked list is getting.
+Features:<br/>
+  -Doubly-linked list for memory management.<br/>
+  -Usage of Linux syscalls for the permanent storage of the document. (writing to a file)<br/>
+  -Malloc and Free function calls for reserving memory space and freeing it when not needed.<br/>
+  -Search algorithm to find where a word or phrase is located.<br/>
+  -Updating byte count that shows how big the linked list is getting.<br/>
   
-Run Instructions (Linux on ARM32 processor or equivalent emulator):
-  -Clone the repository
-  -Navigae to the /build folder in a command prompt window
-  -Run the program with "./RASM4"
-  -The contents are saved to "output.txt", and the file that is read is "input.txt"
+Run Instructions (Linux on ARM32 processor or equivalent emulator):<br/>
+  -Clone the repository<br/>
+  -Navigae to the /build folder in a command prompt window<br/>
+  -Run the program with "./RASM4"<br/>
+  -The contents are saved to "output.txt", and the file that is read is "input.txt"<br/>
