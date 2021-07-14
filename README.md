@@ -1,6 +1,6 @@
 # RASM4
 Alex and Andrew's CS3B ARM assembly project<br/>
-A simple text editor built to target the Raspberry Pi.
+A simple text editor built for the ARM32 architecture
 
 Features:<br/>
   -Doubly-linked list for memory management.<br/>
